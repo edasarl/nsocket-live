@@ -54,6 +54,12 @@
     "plugins": [
       "@babel"
     ],
+    "overrides": [{
+      "files": ["public/js/*"],
+      "env": {
+        "browser": true
+      }
+    }],
     "parserOptions": {
       "requireConfigFile": false,
       "babelOptions": {
