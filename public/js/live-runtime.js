@@ -1,9 +1,10 @@
 /* global matchdom */
 import "../modules/matchdom";
-
+import "./array-like.js";
+import parseHTML from './fragment-parser.js';
 import prepareTemplate from "./template.js";
 
-import moment from '../modules/moment/moment';
+import moment from '../modules/moment';
 import '../modules/moment/locale/fr';
 moment.locale('fr');
 
@@ -20,16 +21,42 @@ const filters = {
 	calendar(val, what) {
 		return moment(val || new Date()).fromNow();
 	},
-	template(val, what) {
-		prepareTemplate(what.node);
-		return val;
+	sandbox(val, what) {
+		if (val && val.nodeType == Node.ELEMENT_NODE) {
+			val.querySelectorAll('iframe').forEach((node) => {
+				node.setAttribute('sandbox', '');
+			});
+		}
+	},
+	procrastify(node, what) {
+		if (!node || node.nodeType != Node.ELEMENT_NODE) return node;
+		node.querySelectorAll('object,img,iframe,embed,opta,.dugout-video,be-op').forEach((node) => {
+			if (node.matches('be-op')) {
+				node.classList.add('lazy');
+				return;
+			}
+			if (node.matches('.lazy') || node.parentNode.closest('object')) return true;
+			const url = node.matches('object,iframe,embed,opta,.dugout-video') && node.getAttribute('title') || node.getAttribute('src');
+			const frag = node.ownerDocument.createElement('span');
+			frag.classList.add('lazy');
+			frag.datalist.html = node.outerHTML;
+			if (url) frag.setAttribute('title', url);
+			node.parentNode.replaceChild(frag, node);
+		});
 	}
 };
 
 (async () => {
-	const res = await fetch('./read.json');
-	const page = await res.json();
-	const messages = page.messages;
-	matchdom(document.documentElement, {page, messages}, filters);
+	try {
+		const res = await fetch('./read.json');
+		const page = await res.json();
+		matchdom(document.documentElement, {page}, filters);
+		const messages = page.messages;
+		const tmpl = prepareTemplate(document.body.querySelector('template'));
+		const result = matchdom(tmpl.content, {messages}, filters);
+		tmpl.after(result);
+	} catch(err) {
+		console.error(err);
+	}
 })();
 
