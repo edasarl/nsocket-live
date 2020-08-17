@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 /* global matchdom */
 import "../modules/matchdom";
 

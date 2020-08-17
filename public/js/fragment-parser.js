@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 export default function parseHTML(html, {doc, ns, frag}) {
 	FragmentParser.init();
 	return FragmentParser.parse(html, {doc, ns, frag});

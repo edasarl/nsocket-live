@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 import parseHTML from "./fragment-parser.js";
 
 export default function prepareTemplate(node) {
