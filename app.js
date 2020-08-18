@@ -1,6 +1,8 @@
 // always resolve paths relative to app.js directory
 process.chdir(__dirname);
 
+(async() => {
+
 const cors = require('cors');
 const morgan = require('morgan');
 const rewrite = require('express-urlrewrite');
@@ -179,14 +181,14 @@ app.use(function(err, req, res, next) {
 if (config.cron) require('./lib/cron')(config.cron);
 if (config.autoExpire) require('./lib/expiration')(config);
 
-(async() => {
-	await ini.async(config);
-	await objection.Models.User.populate(Object.entries(config.domains).map(([domain, obj]) => {
-		return {domain, token: obj.password};
-	}));
-	await auth.keygen(config);
-	require('http').createServer(app).listen(config.listen, () => {
-		console.info("Listening on port", config.listen);
-	});
+await ini.async(config);
+await objection.Models.User.populate(Object.entries(config.domains).map(([domain, obj]) => {
+	return {domain, token: obj.password};
+}));
+await auth.keygen(config);
+require('http').createServer(app).listen(config.listen, () => {
+	console.info("Listening on port", config.listen); // eslint-disable-line
+});
+
 })();
 
