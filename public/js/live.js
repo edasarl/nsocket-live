@@ -1,5 +1,4 @@
-/* global matchdom */
-import "../modules/matchdom";
+import matchdom from "../modules/matchdom";
 import "./array-like.js";
 import parseHTML from './fragment-parser.js';
 import prepareTemplate from "./template.js";
@@ -39,24 +38,24 @@ const filters = {
 			const url = node.matches('object,iframe,embed,opta,.dugout-video') && node.getAttribute('title') || node.getAttribute('src');
 			const frag = node.ownerDocument.createElement('span');
 			frag.classList.add('lazy');
-			frag.datalist.html = node.outerHTML;
+			frag.dataset.html = node.outerHTML;
 			if (url) frag.setAttribute('title', url);
 			node.parentNode.replaceChild(frag, node);
 		});
 	}
 };
 
-(async () => {
-	try {
-		const res = await fetch('./read.json');
-		const page = await res.json();
-		matchdom(document.documentElement, {page}, filters);
-		const messages = page.messages;
-		const tmpl = prepareTemplate(document.body.querySelector('template'));
-		const result = matchdom(tmpl.content, {messages}, filters);
-		tmpl.after(result);
-	} catch(err) {
-		console.error(err);
-	}
-})();
+export function patch() {
 
+}
+
+export function build(root, {page, messages}) {
+	matchdom(document.documentElement, {page}, filters);
+	const tmpl = prepareTemplate(root.querySelector('template'));
+	const result = matchdom(tmpl.content, {messages}, filters);
+	tmpl.after(result);
+}
+
+export function parse(html) {
+	return parseHTML(html);
+}
