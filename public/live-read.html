@@ -50,7 +50,7 @@
 			</div>
 		</header>
 		<template>
-			<article prerender repeat="messages|procrastify|rest|order" id="[messages.id|repeat:*:message]" class="live-message [message.style]" data-date="[messages.date|isoDate]" itemprop="liveBlogUpdate" itemscope itemtype="https://schema.org/BlogPosting" itemref="blogPublisher blogAuthor">
+			<article repeat="messages|procrastify|rest|order" id="[messages.id|repeat:*:message]" class="live-message [message.style]" data-date="[messages.date|isoDate]" itemprop="liveBlogUpdate" itemscope itemtype="https://schema.org/BlogPosting" itemref="blogPublisher blogAuthor">
 				<meta itemprop="url" content="[page.backtrack|or:]#[messages.id]" />
 				<meta itemprop="dateModified" content="[messages.update|isoDate]" />
 				<meta itemprop="mainEntityOfPage" content="[page.backtrack]" />
@@ -58,7 +58,7 @@
 				<h2 itemprop="headline" class="live-title" bind-text="messages.title">[message.title]</h2>
 				<div class="live-icons">[message.mark|iconclass|html]</div>
 				<div class="live-article" itemprop="articleBody">
-					[message.text|html|sandbox]
+					[message.text|html|sandbox|procrastify]
 				</div>
 			</article>
 		</template>
