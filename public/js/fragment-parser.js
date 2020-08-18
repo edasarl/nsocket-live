@@ -1,4 +1,4 @@
-export default function parseHTML(html, {doc, ns, frag}) {
+export default function parseHTML(html, {doc, ns, frag}={}) {
 	FragmentParser.init();
 	return FragmentParser.parse(html, {doc, ns, frag});
 }
