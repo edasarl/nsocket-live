@@ -12,8 +12,12 @@ import * as live from './live.js';
 	await live.build(root, {page, messages});
 
 	const script = document.head.querySelector('script[type="module"][src="/js/live-prerender.js"');
-	const copy = script.cloneNode();
-	copy.setAttribute('src', "/js/live-setup.js");
-	script.parentNode.replaceChild(copy, script);
+	let copy = script;
+	if (document.visibilityState != "prerender") {
+		copy = document.createElement('script');
+		copy.type = 'module';
+		script.parentNode.replaceChild(copy, script);
+	}
+	copy.src = "/js/live-setup.js";
 })();
 
