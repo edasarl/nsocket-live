@@ -26,13 +26,12 @@ const observer = createObserver(function(node) {
 
 function uiNode(node) {
 	observer.observe(node);
-
+}
 
 ready.then(async () => {
 	const root = document.body.querySelector('.live-messages');
 	root.querySelectorAll('article .lazy').forEach((node) => uiNode(node));
-	new Controls(root.querySelector('.live-controls'));
+	new Controls(root);
 }).catch((err) => {
 	console.error(err);
 });
-
