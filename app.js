@@ -70,9 +70,9 @@ app.route("/favicon.ico").get(function(req, res, next) {
 	res.sendStatus(404);
 });
 
-app.use(serveModules([
-	'/modules/matchdom',
-	'/modules/moment'
+app.use(await serveModules('/modules', [
+	'matchdom',
+	'moment'
 ]));
 
 app.route(/\/js|css|img\//).get(
