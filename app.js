@@ -25,7 +25,7 @@ const config = ini(app);
 
 process.title = config.name + '-' + config.version;
 process.on('uncaughtException', function(err) {
-	console.error(err);
+	console.error(err); // eslint-disable-line
 	process.exit(1);
 });
 
@@ -172,7 +172,7 @@ app.get('/:domain', domainLock, prerender('domain'));
 app.use(function(err, req, res, next) {
 	let code = objection.errorStatus(err);
 	if (typeof code != 'number' || code == 500) {
-		console.error(err);
+		console.error(err); // eslint-disable-line
 		code = 500;
 	}
 	res.sendStatus(code);
