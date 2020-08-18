@@ -63,6 +63,9 @@ div.fig-article-body {
 	margin-right:12px;
 	margin-bottom:3px;
 }
+.live-messages.essentiel .live-message:not(.essentiel) {
+	display:none;
+}
 .live-messages .essentiel .live-time {
 	color:#fff;
 	background-color:#b90b04;
