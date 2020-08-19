@@ -49,9 +49,15 @@ export function parse(html) {
 }
 
 export function procrastify(node) {
-	node.querySelectorAll('object,img,iframe,embed,opta,.dugout-video,be-op').forEach((node) => {
+	node.querySelectorAll('object,img,iframe,embed,opta,.dugout-video,be-op,.twitter-tweet').forEach((node) => {
 		if (node.matches('be-op')) {
 			node.classList.add('lazy');
+			return;
+		}
+		if (node.matches('.twitter-tweet')) {
+			node.classList.add('lazy');
+			node.classList.remove('twitter-tweet');
+			node.classList.add('tweet');
 			return;
 		}
 		if (node.matches('.lazy') || node.parentNode.closest('object')) return true;
