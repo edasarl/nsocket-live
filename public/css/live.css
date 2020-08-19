@@ -15,19 +15,19 @@ div.fig-article-body {
 	padding:0 !important;
 	border:0 !important;
 }
-.live-messages > .live-message {
+.live-messages .live-message {
 	position:relative;
 	border-top:1px solid #CCC;
 	padding-top:1em;
 	padding-bottom:1em;
 	zoom:1;
 }
-.live-messages > .live-message::after {
+.live-messages .live-message::after {
 	content:"";
 	display:block;
 	clear:both;
 }
-.live-messages > script + .live-message {
+.live-messages .live-message:first-child {
 	border-top:0px;
 	clear:left;
 }
@@ -301,7 +301,13 @@ div.fig-article-body {
 .live-messages figure > div > .lazy {
 	overflow:hidden;
 }
-
+.live-messages > .live-list {
+	display:flex;
+	flex-direction:column;
+}
+.live-messages.reverse > .live-list {
+	flex-direction:column-reverse;
+}
 .live-messages .lazy {
 	display:block;
 	width:1px;
@@ -319,7 +325,7 @@ div.fig-article-body {
 
 /* DESKTOP */
 @media screen and (min-width: 800px) {
-	.live-messages > .live-message {
+	.live-messages .live-message {
 		padding-top:2em;
 		padding-bottom:1.5em;
 	}

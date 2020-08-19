@@ -41,7 +41,7 @@ export function build(root, {page, messages}) {
 	matchdom(document.documentElement, {page}, filters);
 	const tmpl = prepareTemplate(root.querySelector('template'));
 	const result = matchdom(tmpl.content, {messages}, filters);
-	tmpl.after(result);
+	root.querySelector('.live-list').appendChild(result);
 }
 
 export function parse(html) {
