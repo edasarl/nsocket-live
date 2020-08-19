@@ -29,19 +29,7 @@ const filters = {
 	},
 	procrastify(node, what) {
 		if (!node || node.nodeType != Node.ELEMENT_NODE) return node;
-		node.querySelectorAll('object,img,iframe,embed,opta,.dugout-video,be-op').forEach((node) => {
-			if (node.matches('be-op')) {
-				node.classList.add('lazy');
-				return;
-			}
-			if (node.matches('.lazy') || node.parentNode.closest('object')) return true;
-			const url = node.matches('object,iframe,embed,opta,.dugout-video') && node.getAttribute('title') || node.getAttribute('src');
-			const frag = node.ownerDocument.createElement('span');
-			frag.classList.add('lazy');
-			frag.dataset.html = node.outerHTML;
-			if (url) frag.setAttribute('title', url);
-			node.parentNode.replaceChild(frag, node);
-		});
+		procrastify(node);
 	}
 };
 
@@ -58,4 +46,21 @@ export function build(root, {page, messages}) {
 
 export function parse(html) {
 	return parseHTML(html);
+}
+
+export function procrastify(node) {
+	node.querySelectorAll('object,img,iframe,embed,opta,.dugout-video,be-op').forEach((node) => {
+		if (node.matches('be-op')) {
+			node.classList.add('lazy');
+			return;
+		}
+		if (node.matches('.lazy') || node.parentNode.closest('object')) return true;
+		const url = node.matches('object,iframe,embed,opta,.dugout-video') && node.getAttribute('title') || node.getAttribute('src');
+		const frag = node.ownerDocument.createElement('span');
+		frag.classList.add('lazy');
+		frag.dataset.html = node.outerHTML;
+		if (url) frag.setAttribute('title', url);
+		node.parentNode.replaceChild(frag, node);
+	});
+	return node;
 }

@@ -1,3 +1,5 @@
+import {procrastify} from './live.js';
+
 export default class Controls {
 	constructor(root) {
 		this.root = root;
@@ -11,7 +13,7 @@ export default class Controls {
 			const messages = this.root.querySelectorAll('.live-message:not(.live-new):not(.pinned)');
 			// TODO procrastify each node before insertion
 			for (var node of Array.from(messages).reverse()) {
-				this.root.appendChild(node);
+				this.root.appendChild(procrastify(node));
 			}
 		}
 	}
